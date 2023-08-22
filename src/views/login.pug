@@ -1,0 +1,22 @@
+doctype html
+html
+    head
+        title Página de Login
+        link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
+        ink(rel="stylesheet", href="/styles.css")
+
+    body
+        .container.mt-5
+            .row.justify-content-center
+                .col-md-4
+                    h2.text-center.mb-4 Entrar
+                    form(action="/auth/login" method="post")
+                        .form-group
+                            label(for="username") Login
+                            input.form-control(type="text" name="username" required)
+                        .form-group
+                            label(for="password") Senha
+                            input.form-control(type="password" name="password" required)
+                        .form-group
+                            button.btn.btn-primary.btn-block(type="submit") Entrar
+                            a.btn.btn-link.btn-block(href="/register") Cadastrar

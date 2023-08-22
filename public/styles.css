@@ -1,0 +1,68 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #e6f7ff, #a1cbee); /* Gradiente diagonal */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 340px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Tornando ligeiramente transparente para o gradiente aparecer */
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2); /* Sombras mais proeminentes para a sensação de elevação */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555; /* Um pouco mais escuro para contraste */
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #d0d0d0;
+    border-radius: 20px;
+    background-color: #f5f8fa;
+    transition: border-color 0.3s ease; /* Transição suave na cor da borda */
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #00aaff; /* Uma cor azul quando focado */
+    outline: none; /* Removendo o contorno padrão do navegador */
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #00aaff;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Efeito de transformação adicionado */
+}
+
+button:hover {
+    background-color: #0088cc;
+    transform: scale(1.05); /* Faz o botão parecer um pouco maior quando o mouse passa por cima */
+}
+
+a {
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #007BFF;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0056b3;
+}

@@ -1,0 +1,149 @@
+Meu projeto possui a seguinte estrutura:
+
+diretorio principal:
+DIST
+node_modules
+public: vazia
+src:
+index.ts: 
+import express, { Request, Response, NextFunction } from 'express';
+import { createConnection } from 'typeorm';
+import authRoutes from './routes/auth';
+
+const app = express();
+const PORT = 3002;
+
+app.set('view engine', 'pug');
+app.set('views', './views');
+
+// Middlewares para parsing de JSON e dados de formulário
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Middleware para servir arquivos estáticos
+app.use(express.static('public'));
+
+// Rota para a página de login
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+// Rotas de autenticação
+app.use('/auth', authRoutes);
+
+// Middleware de tratamento de erros
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error(err.stack);
+    res.status(500).send('Algo deu errado!');
+});
+
+createConnection()
+    .then(async () => {
+        app.listen(PORT, () => {
+            console.log(`Servidor rodando na porta ${PORT}`);
+        });
+    })
+    .catch((error) => {
+        console.error('Erro ao conectar com o banco de dados:', error);
+    });
+
+
+    routes
+        auth.ts:
+        // src/routes/auth.ts
+
+import { Router } from 'express';
+import { getConnection } from 'typeorm';  // Adicionando getConnection
+import { User } from '../entity/user';
+import jwt from 'jsonwebtoken';
+
+const router = Router();
+
+async function findUserByUsername(username: string) {
+    const userRepository = getConnection().getRepository(User);  // Modificado aqui
+    return await userRepository.findOne({ username: username });
+}
+
+router.post('/register', async (req, res) => {
+    const repo = getConnection().getRepository(User);  // Modificado aqui
+    const { username, password } = req.body;
+
+    const user = new User();
+    user.username = username;
+    user.password = password;
+    user.hashPassword();
+
+    try {
+        const result = await repo.save(user);
+        res.status(201).send(result);
+    } catch (e) {
+        res.status(409).send('Username já existe.');
+    }
+});
+
+router.post('/login', async (req, res) => {
+    const repo = getConnection().getRepository(User);  // Modificado aqui
+    const { username, password } = req.body;
+
+    const user = await repo.findOne({ username: username });
+
+    if (user && user.checkPassword(password)) {
+        const token = jwt.sign({ userId: user.id, username: user.username }, "your_secret_key", { expiresIn: "1h" });
+        res.send({ token });
+    } else {
+        res.status(401).send('Credenciais inválidas.');
+    }
+});
+
+export default router;
+
+views
+login.pug:
+doctype html
+html
+    head
+        title Página de Login
+    body
+        form(action="/auth/login" method="post")
+            div
+                label(for="username") Username
+                input(type="text" name="username" required)
+            div
+                label(for="password") Senha
+                input(type="password" name="password" required)
+            div
+                button(type="submit") Entrar
+
+package-lock.json
+package.json
+ormconfig.json:
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "hugo",
+    "password": "78711",
+    "database": "bancoapi",
+    "synchronize": true,
+    "logging": false,
+    "entities": ["src/entity/**/*.ts"],
+    "migrations": ["src/migration/**/*.ts"],
+    "subscribers": ["src/subscriber/**/*.ts"]
+  }
+tsconfig.json: {
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "exclude": ["node_modules"]
+}
+
+preciso fazer o login basico funcionar em meu banco eu já criei uma tabela usuarios com as colunas login e senha
