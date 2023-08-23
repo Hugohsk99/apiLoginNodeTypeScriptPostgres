@@ -1,6 +1,3 @@
-# Meu Projeto
-
-Descrição breve do seu projeto...
 
 ## Instalação
 
