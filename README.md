@@ -11,3 +11,5 @@ chmod +x install.sh
 
 4. Inicie o servidor:
 npm run dev
+psql -U hugo -d bancoapi
+
