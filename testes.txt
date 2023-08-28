@@ -1,4 +1,3 @@
-Meu projeto possui a seguinte estrutura:
 
 diretorio principal:
 DIST
@@ -146,4 +145,11 @@ tsconfig.json: {
   "exclude": ["node_modules"]
 }
 
-preciso fazer o login basico funcionar em meu banco eu já criei uma tabela usuarios com as colunas login e senha
+    • sudo apt update
+    • sudo apt install nodejs npm
+    • mkdir meu_projeto_node
+    • cd meu_projeto_node
+    • npm init
+    • npm install express –save
+    • nano app.js
+    • node app.js
